@@ -21,10 +21,10 @@ function createUser(PDO $dbcon, $fname, $lname, $username, $passwd){
     $passwd = filter_var($passwd, FILTER_SANITIZE_STRING);
 
     try{
-        $hash_pw = password_hash($passwd, PASSWORD_DEFAULT);
+        $passwd = password_hash($passwd, PASSWORD_DEFAULT);
         $sql = "INSERT IGNORE INTO user2 (fname, lname, username, passwd) VALUES(?,?,?,?)";
         $prepare = $dbcon->prepare($sql);
-        $prepare->execute(array( $fname, $lname, $username, $hash_pw));
+        $prepare->execute(array( $fname, $lname, $username, $passwd));
     }catch(PDOException $e){
         echo '<br>'.$e->getMessage();
     }
@@ -60,7 +60,7 @@ function checkUser(PDO $dbcon, $username, $passwd){
 
     
         foreach($rows as $row){
-            $pw = $row["password"];  
+            $pw = $row["passwd"];  
             if( password_verify($passwd, $pw) ){  
                 return true;
             }
@@ -75,6 +75,9 @@ function checkUser(PDO $dbcon, $username, $passwd){
 }
 
 
+createUser($dbcon, 'Jasmin', 'Brunni', 'jasminbrunni', 'niiskuneiti11');
+createUser($dbcon, 'Risto', 'Reipas', 'ristoreipas', 'reipas');
+createUser($dbcon, 'Maija', 'Poppanen', 'Sateenvarjo', 'sade');
 
 /*function createTable($con){
     $sql = "CREATE TABLE IF NOT EXISTS user2(

@@ -1,6 +1,6 @@
 var form = document.querySelector("form");
 var loginResult = document.querySelector("p");
-var loginUrl = 'http://localhost/tietoturva/log.php'
+var loginUrl = 'http://localhost/tietoturva';
 
 form.addEventListener("submit", login)
 
@@ -15,7 +15,7 @@ function login(e){
 
     var data = new FormData(form)
 
-    var base64cred = btoa(data.get("username")+":"+data.get("password"))
+    var base64cred = btoa(data.get("username")+":"+data.get("passwd"))
 
     var params = {
         headers: { 'Authorization':'Basic' + base64cred },
